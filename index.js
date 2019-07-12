@@ -1,21 +1,40 @@
 let gridValues = [[],[],[]];
 let buttonClass = "grid-btns";
 let buttons = document.getElementsByClassName(buttonClass);
+let lastMove = '';
+let statusBar = document.getElementById("status");
+
+
 let afterMoveHandler = function (event) {
     // it seems that this is a reference copy, any changes to button will be reflected in the DOM
     let button = event.target;
-    if (button.innerText !== "X") {
-        button.innerText = "X";
-    } else {
-        button.innerText = "O"
+    let buttonText = '';
+    let nextMove = '';
+
+    // 'X' has first move
+    if (lastMove === '' || lastMove === 'O') {
+        buttonText = 'X';
+        nextMove = 'O';
+    } else if (lastMove === 'X'){
+        buttonText = 'O';
+        nextMove = 'X';
     }
+
+    button.innerText = buttonText;
+    lastMove = buttonText;
 
     let btnId = button.getAttribute("id");
     let xCord = btnId.split("-")[1];
     let yCord = btnId.split("-")[2];
     // update the grid values
     gridValues[xCord][yCord] = button.innerText;
-    checkVictory(gridValues);
+    let gameOver = checkVictory(gridValues);
+    if (gameOver) {
+        let msg = `${buttonText} wins!!!`;
+        statusBar.innerText = msg;
+    } else {
+        statusBar.innerText = `${nextMove}'s Move!`
+    }
 };
 
 function checkVictory(gridValues) {
@@ -90,6 +109,8 @@ function checkVictory(gridValues) {
     if (!gameOver) {
         console.log('the game continues ...');
     }
+
+    return gameOver;
 }
 
 function allEqual(values) {
@@ -178,6 +199,8 @@ function main() {
     for (let button of buttons){
         button.onclick = afterMoveHandler
     }
+    // X has the first move
+    statusBar.innerText = "X's Move";
 }
 
 main();
