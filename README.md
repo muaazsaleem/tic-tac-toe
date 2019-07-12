@@ -2,8 +2,8 @@
 
 Just a minimalist game of tic tac toe.
 
-Open the `index.html` file in the browser (tested with Chrome) to 
-play.
+Open the `index.html` file in the browser to 
+play (tested with Chrome).
 
 
 ### Click to start the game
